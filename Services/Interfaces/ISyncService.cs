@@ -9,7 +9,6 @@ namespace DriveCli.Services.Interfaces
 {
     public interface ISyncService
     {
-        Task<SyncResult> SyncAsync();
         Task<SyncResult> SyncWithProgressAsync(Spectre.Console.ProgressTask progressTask);
     }
 }

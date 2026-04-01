@@ -1,14 +1,40 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DriveCli.Commands;
 using DriveCli.Services;
+using DriveCli.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
 Console.WriteLine("Hello, World!");
 
-var authService = new AuthService();
-var driveService = new GoogleDriveService(authService);
-var fileSystemService = new FileSystemService();
-var syncService = new SyncService(driveService, fileSystemService);
+var services = new ServiceCollection();
+
+// Logging
+services.AddLogging(config =>
+{
+    config.ClearProviders();
+    config.AddConsole();
+    config.SetMinimumLevel(LogLevel.Information);
+});
+
+// Register all dependencies
+services.AddSingleton<IAuthService, AuthService>();
+services.AddSingleton<IGoogleDriveService, GoogleDriveService>();
+services.AddScoped<IFileSystemService, FileSystemService>();
+
+// Register SyncService (concrete)
+services.AddScoped<SyncService>();
+
+// If you also need the interface for other services
+services.AddScoped<ISyncService, SyncService>();
+
+// Register commands
+services.AddTransient<SyncCommand>();
+services.AddTransient<SearchCommand>();
+services.AddTransient<UploadCommand>();
+
+var provider = services.BuildServiceProvider();
 
 if (args.Length == 0)
 {
@@ -21,12 +47,14 @@ var command = args[0].ToLower();
 switch (command)
 {
     case "sync":
-        await new SyncCommand(syncService).ExecuteAsync();
+        var syncCommand = provider.GetRequiredService<SyncCommand>();
+        await syncCommand.ExecuteAsync();
         break;
 
     case "search":
+        var searchCommand = provider.GetRequiredService<SearchCommand>();
         var query = args.Length > 1 ? args[1] : "";
-        await new SearchCommand(driveService, fileSystemService).ExecuteAsync(query);
+        await searchCommand.ExecuteAsync(query);
         break;
 
     case "upload":
@@ -35,7 +63,9 @@ switch (command)
             AnsiConsole.MarkupLine("[red]Usage: upload [localPath] [drivePath][/]");
             return;
         }
-        await new UploadCommand(driveService).ExecuteAsync(args[1], args[2]);
+
+        var uploadCommand = provider.GetRequiredService<UploadCommand>();
+        await uploadCommand.ExecuteAsync(args[1], args[2]);
         break;
 
     default:
