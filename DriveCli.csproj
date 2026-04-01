@@ -14,9 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Config\client_secret.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Folder Include="Config\" />
+    <Folder Include="token.json\" />
   </ItemGroup>
 
 </Project>
