@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DriveCli": {
+      "commandName": "Project",
+      "commandLineArgs": "sync"
+    }
+  }
+}
