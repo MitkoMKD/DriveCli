@@ -1,17 +1,7 @@
 ﻿using DriveCli.Services;
 using DriveCli.Services.Interfaces;
-using FluentAssertions;
-using Google.Apis.Download;
-using Google.Apis.Drive.v3;
-using Google.Apis.Drive.v3.Data;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace DriveCli.UnitTests
 {
