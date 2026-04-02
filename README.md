@@ -46,7 +46,9 @@ Thread safety is ensured using Interlocked operations for updating shared counte
 4. Enable Google Drive API
 5. Create OAuth Client (Desktop App)
 6. Download client_secret.json
-7. Place it in the root directory of the project
+7. Rename it to client_secret.json
+8. Add to Config folder (create if not exists)
+9. Place it in the root directory of the project
 
 ## Usage
 
