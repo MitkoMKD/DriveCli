@@ -48,7 +48,7 @@ Thread safety is ensured using Interlocked operations for updating shared counte
 6. Download client_secret.json
 7. Rename it to client_secret.json
 8. Add to Config folder (create if not exists)
-9. Place it in the root directory of the project
+9. Right-click on client_secret.json → Properties → Set "Copy to Output Directory" to "Copy if newer" or "Copy always"
 
 ## Usage
 
